@@ -39,8 +39,41 @@ import DiGui_DFS.pojo.TreeNode;
  */
 public class Solution {
 
-    public int sumNumbers(TreeNode root) {
+    private static int max = 0;
 
-        return 0;
+    public  static int sumNumbers(TreeNode root) {
+
+        return getValue(root);
+    }
+
+    public static int getValue(TreeNode node){
+
+        if(node==null) return 0;
+
+        int left = getValue(node.left);
+        int right = getValue(node.right);
+
+        int leftValue =(node.left!=null)?node.val*10+left:0;
+        int rightValue =(node.right!=null)?node.val*10+right:0;
+
+        return leftValue+rightValue==0?node.val:leftValue+rightValue;
+    }
+
+//    4,9,0,5,1]
+    public static void main(String[] args) {
+        TreeNode l1 = new TreeNode(4);
+        TreeNode l1l = new TreeNode(9);
+        TreeNode l1r = new TreeNode(0);
+        TreeNode l1l1 = new TreeNode(5);
+        TreeNode l1r1 = new TreeNode(1);
+
+        l1.left=l1l;
+        l1.right=l1r;
+
+        l1l.left = l1l1;
+        l1l.right = l1r1;
+
+        System.out.println(sumNumbers(l1));
+
     }
 }

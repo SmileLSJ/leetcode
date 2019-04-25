@@ -4,7 +4,8 @@ package Heap.L215_Middle;
 import org.junit.Test;
 
 /**
- 在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
+ 在未排序的数组中找到第 k 个最大的元素。请注意，
+ 你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
 
  示例 1:
 
@@ -25,11 +26,12 @@ public class MinHeapSolution {
     public static void main(String[] args) {
 
         int[] arr = {3,2,1,5,6,4};
-        System.out.println(findKthLargest(arr,2));
+        MinHeapSolution minHeapSolution = new MinHeapSolution();
+        System.out.println(minHeapSolution.findKthLargest(arr,2));
     }
 
 
-    public static int findKthLargest(int[] nums, int k) {
+    public int findKthLargest(int[] nums, int k) {
 
         //第一个为空，从第二个开始，下标为1
         int[] heap = new int[k+1];
@@ -39,17 +41,16 @@ public class MinHeapSolution {
         }
 
         //初始化
+        //必须从下到上，进行堆化，这样才能保证堆中结构正确
         for(int i = k/2;i>0;i--){
             sort(heap,i);
         }
 
+        //在已经排好序的堆中，插入一个新值，然后从上到下进行堆化
         for(int i = k; i < nums.length; i++){
             if(nums[i] > heap[1]){
                 heap[1] = nums[i];
-                //初始化
-                for(int j = k/2;j>0;j--){
-                    sort(heap,j);
-                }
+                sort(heap,1);
             }
         }
         return heap[1];
@@ -58,9 +59,10 @@ public class MinHeapSolution {
 
     //最小堆
     //index 表示非叶子节点，
-    public static void sort(int[] heap,int index){
+    //从上到下堆化
+    public void sort(int[] heap,int index){
 
-//        while(true){true
+        while(true){
             int minIndex = index;
 
             //左节点：序号肯定在小顶堆中，且小于
@@ -74,17 +76,16 @@ public class MinHeapSolution {
             }
 
             //如果没有修改，说明当前是小顶堆
-            /*if(minIndex==index){
+            if(minIndex==index){
                 break;
-            }*/
+            }
 
             //交换
             int tmp = heap[index];
             heap[index]=heap[minIndex];
             heap[minIndex] = tmp;
 
-//            index = minIndex;
-//        }
+            index = minIndex;
+        }
     }
-
 }
